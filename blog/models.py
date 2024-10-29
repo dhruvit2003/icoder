@@ -5,11 +5,11 @@ from django.utils.timezone import now
 # Create your models here.
 class Post(models.Model):
     sno = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255)
+    title = models.CharField(max_length=100)
     content = models.TextField()
-    author = models.CharField(max_length=13)
-    slug = models.CharField(max_length=130)
-    timeStamp = models.DateTimeField(blank=True)
+    author = models.CharField(max_length=20)
+    slug = models.CharField(max_length=50)
+    timeStamp = models.DateTimeField(default=now)
 
     def __str__(self) -> str:
         return "message from " + self.title + ' - ' + self.author

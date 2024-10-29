@@ -29,6 +29,52 @@
           <li class="nav-item" {% block blogactive %}{% endblock blogactive %}>
             <a class="nav-link" href="/blog">Blog</a>
           </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item" {% block dashboardactive %}{% endblock dashboardactive %}>
+            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#addBlogModel" >Add Blog</a>
+          </li>
+
+            <!-- addBlogModel -->
+            <div class="modal fade" id="addBlogModel" tabindex="-1" aria-labelledby="addBlogModel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    {% csrf_token %}
+                    <h1 class="modal-title fs-5" id="signupModalTitle">AddBlog Here</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form action="/addBlog" method="post">
+                      {% csrf_token %}
+                        <div class="mb-3">
+                          <label for="blogtitle" class="form-label">Title</label>
+                          <input type="text" class="form-control" id="blogtitle" name="blogtitle" maxlength="100"
+                            placeholder="Write Blog Title" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="blogcontent" class="form-label">Content</label>
+                          <textarea class="form-control" id="blogcontent" name="blogcontent" rows="3" placeholder="Write a content of Blog here" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                          <label for="blogauthor" class="form-label">Author</label>
+                          <input type="text" class="form-control" id="blogauthor" name="blogauthor" placeholder="Write Author Name" maxlength="20" required>
+                        </div>
+                        <div class="mb-3">
+                          <label for="blogslug" class="form-label">Slug</label>
+                          <input type="text" class="form-control" id="blogslug" name="blogslug" placeholder="Write Slug of the Blog" maxlength="50" required>
+                       </div>
+                       <div class="mb-3">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                       </div>
+                       <div class="modal-footer">
+                       </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          {% endif %}
           <li class="nav-item" {% block contactactive %}{% endblock contactactive %}>
             <a class="nav-link" href="/contact">Contact</a>
           </li>

@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from blog.models import Post
 
-
 # HTML pages
 def home(request):
     return render(request, 'home/home.html')
@@ -53,7 +52,6 @@ def search(request):
     return render(request, 'home/search.html', params)
     # return HttpResponse("This Is Search Page")
 
-
 # Authentication APIs
 def handleSignup(request):
     if request.method == 'POST':
@@ -74,7 +72,6 @@ def handleSignup(request):
             messages.error(request, "Username must be under 10 character")
             return redirect('home')  
     
-        
         if (pass2 != pass1):
             messages.error(request, "Passwords do not match")
             return redirect('home')  
@@ -110,7 +107,7 @@ def handleLogin(request):
     # return HttpResponse('login')
 
 def handleLogout(request):
-
+    
     if request.method == 'GET':
         print(request)
         logout(request)
@@ -121,3 +118,17 @@ def handleLogout(request):
         return HttpResponse('404 - not found')
 
     # return HttpResponse('logout')
+
+def addBlog(request):
+    if request.method == "POST":
+        title = request.POST['blogtitle']
+        content = request.POST['blogcontent']
+        author = request.POST['blogauthor']
+        slug = request.POST['blogslug']
+        post = Post(title=title, content=content, author=author, slug=slug)
+        post.save()
+        messages.success(request, "Your post has been successfully added")
+        return render(request, 'blog/blogHome.html')
+    else:
+        messages.error(request, "Please fill the form correctly")
+        return render(request, 'blog/blogHome.html')
